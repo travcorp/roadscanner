@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var request = require('request');
+var cheerio = require('cheerio');
 
 var appServer;
 var mockAPIServer;
@@ -19,19 +20,25 @@ module.exports = function () {
   });
 
   this.Given(/^A list of tours are available$/, function () {
-      mockAPIServer.setTours([{name:"Best of Italy", bookingUrl: ""}, {name:"Best of UK", bookingUrl: ""}]);
+      mockAPIServer.setTours([{name:"Best of Italy", bookingUrl: "http://bestofitaly", provider: "Trafalgar"}, {name:"Best of UK", bookingUrl:  "http://bestofuk", provider: "Contiki"}]);
   });
 
   this.When(/^the list of tours are requested$/, function (callback) {
     request('http://localhost:8080/tours', (error, response, body) => {
-      this.returnedTours = body;
+      this.$ = cheerio.load(body);
       callback();
     });
   });
 
   this.Then(/^tours are displayed$/, function () {
-    expect(this.returnedTours).to.contain('Best of Italy');
-    expect(this.returnedTours).to.contain('Best of UK');
+    var first = this.$('li').first();
+    var last = this.$('li').last();
+
+    expect(first.find('a').attr('href')).to.equal("http://bestofitaly");
+    expect(first.text()).to.equal('Best of Italy [Trafalgar]');
+
+    expect(last.find('a').attr('href')).to.equal("http://bestofuk");
+    expect(last.text()).to.equal('Best of UK [Contiki]');
   });
 
   this.Given(/^An api that returns no tours$/, function () {
