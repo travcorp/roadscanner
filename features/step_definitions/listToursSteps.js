@@ -1,4 +1,6 @@
 var expect = require('chai').expect;
+var request = require('request');
+
 
 module.exports = function () {
 
@@ -16,7 +18,14 @@ module.exports = function () {
     this.returnedTours = toursService.tours();
   });
 
-  this.Then(/^tours are displayed$/, function () {
-    expect(this.returnedTours.length).to.eql(1);
+  this.Then(/^tours are displayed$/, function (collback) {
+      request('http://localhost:8080', function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+	      expect(body).to.contain('The Tour');
+              collback();
+	  }
+      });
+    
+
   }); 
 }
