@@ -22,7 +22,7 @@ class AppServer {
                 if(tourList.length === 0) {
                     res.send("No tours available");
                 } else {
-                    res.send(JSON.stringify(tourList));
+                    res.send("todo");
                 }
             });
         });
