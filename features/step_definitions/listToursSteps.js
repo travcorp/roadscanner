@@ -15,7 +15,8 @@ module.exports = function () {
   var returnedTours;
   var toursService = {
     tours:function(){
-      return [{name: "The Tour", url:"http://www.google.com"}];
+	return [{name: "Best of Italy", url:"http://localhost:8080/tours/1"},
+		{name: "Best of UK", url:"http://localhost:8080/tours/2"}];
     }
   }
 
@@ -27,7 +28,7 @@ module.exports = function () {
   });
 
   this.Then(/^tours are displayed$/, function (collback) {
-      request('http://localhost:8080', function (error, response, body) {
+      request('http://localhost:8080/tours', function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	      expect(body).to.contain('The Tour');
               collback();
