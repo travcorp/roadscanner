@@ -11,6 +11,7 @@
     "chai": "^3.5.0",
     "cucumber": "^1.2.1",
     "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
     "http": "^0.0.0",
     "request": "^2.73.0"
   },

@@ -30,7 +30,8 @@ module.exports = function () {
   this.Then(/^tours are displayed$/, function (collback) {
       request('http://localhost:8080/tours', function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	      expect(body).to.contain('The Tour');
+	      expect(body).to.contain('Best of Italy');
+	      expect(body).to.contain('Best of UK');
               collback();
 	  }
       });
