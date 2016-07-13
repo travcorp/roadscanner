@@ -25,7 +25,7 @@ class AppServer {
             });
         });
 
-        app.set('port', 8080);
+        app.set('port', process.env.PORT || 8080);
         this.server = http.createServer(app);
         this.server.listen(app.get('port'), function () {
             console.log("Mock tour API created : " + app.get('port'));
