@@ -8,9 +8,7 @@ class MockAPIServer {
         console.log("Starting mock tour API server");
         var app = express();
         app.get('/tours', (request, response) => {
-            if(this.returnNoTours) {
-                response.send("[]");
-            }
+           response.send(JSON.stringify(this.tours));
         });
 
         app.set('port', 9999);
@@ -21,8 +19,8 @@ class MockAPIServer {
         });
     }
 
-    returnNoTours() {
-        this.returnNoTours = true;
+    setTours(tours) {
+        this.tours = tours;
     }
 
     close() {

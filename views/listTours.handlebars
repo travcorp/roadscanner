@@ -1,13 +1,10 @@
 <html>
-<body >
-
-  <div>
-     {{#each this}}
-       <div id="name">{{name}}</div>
-       <div id="url">{{url}}</div>
-     {{/each}}
-</div>
-
+<body>
+<h1>List of available tours</h1>
+<ul>
+    {{#each tours}}
+        <li><a href="{{url}}">{{name}}</a></li>
+    {{/each}}
+</ul>
 </body>
-
 </html>

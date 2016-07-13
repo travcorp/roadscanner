@@ -1,51 +1,45 @@
 var expect = require('chai').expect;
 var request = require('request');
 
+var appServer;
+var mockAPIServer;
 
 module.exports = function () {
 
   this.Before(function(scenario, done) {
-    this.app = require('../../app')(done);
-  });
-
-  this.After(function() {
-    this.app.close();
-  });
-
-  var returnedTours;
-  var toursService = {
-    tours:function(){
-	return [{name: "Best of Italy", url:"http://localhost:8080/tours/1"},
-		{name: "Best of UK", url:"http://localhost:8080/tours/2"}];
+    if(appServer === undefined) {
+      appServer = require('../../app')(() => {
+        if(mockAPIServer === undefined) {
+          mockAPIServer = require('../../mock/mockAPI')(done);
+        }
+      });
+    } else {
+      done();
     }
-  }
+  });
 
   this.Given(/^A list of tours are available$/, function () {
+      mockAPIServer.setTours([{name:"Best of Italy", url: ""}, {name:"Best of UK", url: ""}]);
   });
 
-  this.When(/^the list of tours are requested$/, function () {
-    this.returnedTours = toursService.tours();
+  this.When(/^the list of tours are requested$/, function (callback) {
+    request('http://localhost:8080/tours', (error, response, body) => {
+      this.returnedTours = body;
+      callback();
+    });
   });
 
-  this.Then(/^tours are displayed$/, function (collback) {
-      request('http://localhost:8080/tours', function (error, response, body) {
-	  if (!error && response.statusCode == 200) {
-	      expect(body).to.contain('Best of Italy');
-	      expect(body).to.contain('Best of UK');
-              collback();
-	  }
-      });
-    
-
+  this.Then(/^tours are displayed$/, function () {
+    expect(this.returnedTours).to.contain('Best of Italy');
+    expect(this.returnedTours).to.contain('Best of UK');
   });
 
-  this.Given(/^An api that returns no tours$/, function (done) {
-    this.mockAPI = require('../../mock/mockAPI')(done);
-    this.mockAPI.returnNoTours();
+  this.Given(/^An api that returns no tours$/, function () {
+    mockAPIServer.setTours([]);
   });
 
   this.When(/^The list of tours are requested$/, function (done) {
-    request('http://localhost:8080/tours/list', (errors, response, body) => {
+    request('http://localhost:8080/tours', (errors, response, body) => {
       this.responseBody = body;
       done();
     });
