@@ -11,7 +11,7 @@ class AppServer {
         var app = express();
 	var exphbs  = require('express-handlebars');
 
-        var toursAPIURL = "http://localhost:9999";
+        var toursAPIURL = process.env.ROADSCANNER_API_URL || "http://localhost:9999";
 
 	app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 	app.set('view engine', 'handlebars');
@@ -35,7 +35,7 @@ class AppServer {
         app.set('port', process.env.PORT || 8080);
         this.server = http.createServer(app);
         this.server.listen(app.get('port'), function () {
-            console.log("Mock tour API created : " + app.get('port'));
+            console.log("Started roadscanner-ui server : " + app.get('port'));
             if(done) {
                 done();
             }
