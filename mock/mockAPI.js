@@ -1,13 +1,12 @@
 'use strict'
+var express = require("express");
+var http = require('http');
 
 class MockAPIServer {
 
     constructor(done) {
         console.log("Starting mock tour API server");
-        var express = require("express");
-        var http = require('http');
         var app = express();
-
         app.get('/tours', (request, response) => {
             if(this.returnNoTours) {
                 response.send("[]");
