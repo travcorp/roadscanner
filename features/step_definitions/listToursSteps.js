@@ -19,7 +19,7 @@ module.exports = function () {
   });
 
   this.Given(/^A list of tours are available$/, function () {
-      mockAPIServer.setTours([{name:"Best of Italy", url: ""}, {name:"Best of UK", url: ""}]);
+      mockAPIServer.setTours([{name:"Best of Italy", bookingUrl: ""}, {name:"Best of UK", bookingUrl: ""}]);
   });
 
   this.When(/^the list of tours are requested$/, function (callback) {
