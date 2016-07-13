@@ -11,6 +11,10 @@ class AppServer {
 
         var toursAPIURL = "http://localhost:9999";
 
+        app.get('/', function (req, res) {
+            res.send('The Tour\n');
+        });
+
         app.get('/tours/list', function (req, res) {
             request(toursAPIURL +"/tours", function(errors, resp, body) {
                 var tourList = JSON.parse(body);
