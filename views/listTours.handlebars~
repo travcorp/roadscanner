@@ -1,0 +1,8 @@
+<html>
+<body >
+<div id="name">{{name}}</div>
+<div id="url">{{url}}</div>
+
+</body>
+
+</html>

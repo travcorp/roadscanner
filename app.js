@@ -9,11 +9,18 @@ class AppServer {
     constructor(done) {
         console.log("Starting tour comparison server");
         var app = express();
+	var exphbs  = require('express-handlebars');
 
         var toursAPIURL = process.env.ROADSCANNER_API_URL || "http://localhost:9999";
 
+	app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+	app.set('view engine', 'handlebars');
+
+        var tours = [{name: "Best of Italy", url:"http://localhost:8080/tours/1"},
+		     {name: "Best of UK", url:"http://localhost:8080/tours/2"}];
+
         app.get('/tours', function (req, res) {
-            res.send('The Tour\n');
+	    res.render('listTours', tours);
         });
 
         app.get('/tours/list', function (req, res) {

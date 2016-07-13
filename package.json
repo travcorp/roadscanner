@@ -8,7 +8,8 @@
   "dependencies": {
     "casper": "0.1.1",
     "express": "4.14.0",
-    "request": "2.73.0"
+    "request": "2.73.0",
+    "express-handlebars": "^3.0.0"
   },
   "scripts": {
     "test": "cucumberjs",
