@@ -1,13 +1,14 @@
 'use strict'
 
+var express = require("express");
+var http = require('http');
+var request = require('request');
+
 class AppServer {
 
     constructor(done) {
         console.log("Starting tour comparison server");
-        var express = require("express");
-        var http = require('http');
         var app = express();
-        var request = require('request');
 	var exphbs  = require('express-handlebars');
 
         var toursAPIURL = "http://localhost:9999";
@@ -31,11 +32,13 @@ class AppServer {
             });
         });
 
-        app.set('port', 8080);
+        app.set('port', process.env.PORT || 8080);
         this.server = http.createServer(app);
         this.server.listen(app.get('port'), function () {
             console.log("Mock tour API created : " + app.get('port'));
-            done();
+            if(done) {
+                done();
+            }
         });
     }
 
