@@ -21,6 +21,8 @@ class AppServer {
                 var tourList = JSON.parse(body);
                 if(tourList.length === 0) {
                     res.send("No tours available");
+                } else {
+                    res.send(JSON.stringify(tourList));
                 }
             });
         });
